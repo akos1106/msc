@@ -47,6 +47,7 @@ betas = seq(0, 1, 0.01);
 xaxis = sigma(betas);
 yaxis = expected(betas);
 
+#--------------------------------------------------------------------------------------------------------------------
 #USE THIS plot if you would like to see the WHOLE PICTURE with the x and y axis
 plot(xaxis, yaxis, type="l", xlab="Sigma (risk)", ylab="Expected return", xlim=c(0, max(sd1,sd2)), ylim=c(0, max(e1,e2)))
 
@@ -55,7 +56,7 @@ plot(xaxis, yaxis, type="l", xlab="Sigma (risk)", ylab="Expected return", xlim=c
 
 #USE THIS plot if you would like to see the TANGENCY PORTFOLIO from UP CLOSE
 #plot(xaxis, yaxis, type = "l", xlab="Sigma (risk)", ylab="Expected return", xlim=c(sigmapitangency-0.0015, sigmapitangency+0.0015), ylim=c(epitangency-0.0015,epitangency+0.0015))
-
+#--------------------------------------------------------------------------------------------------------------------
 
 
 #PLOTTING the x and y AXIS, the RISK FREE asset, and the 3 given PORTFOLIOS with black dots
