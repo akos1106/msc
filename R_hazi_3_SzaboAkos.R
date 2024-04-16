@@ -94,8 +94,8 @@ lines(sigmapis, cml(sigmapis), lwd=2, lty='dashed')
 
 
 #Calculating and plotting the TANGENCY PORTFOLIO with a black square
-C = t(onematrix) %*% solve(v) %*% onematrix
-A = t(onematrix) %*% solve(v) %*% e
+C = t(onematrix) %*% solve(v) %*% onematrix;
+A = t(onematrix) %*% solve(v) %*% e;
 
 epitangency = r0 + K / (C * (A/C - r0));
 sigmapitangency = (epitangency - r0) / sqrt(K);
