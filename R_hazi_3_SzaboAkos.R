@@ -54,7 +54,7 @@ plot(xaxis, yaxis, type="l", xlab="Sigma (risk)", ylab="Expected return", xlim=c
 #plot(xaxis, yaxis, type="l", xlab="Sigma (risk)", ylab="Expected return")
 
 #USE THIS plot if you would like to see the TANGENCY PORTFOLIO from UP CLOSE
-#plot(xaxis, yaxis, type = "l", xlab="Sigma (risk)", ylab="Expected return", xlim=c(0.05, 0.055), ylim=c(0.098, 0.103))
+#plot(xaxis, yaxis, type = "l", xlab="Sigma (risk)", ylab="Expected return", xlim=c(sigmapitangency-0.03, sigmapitangency+0.03), ylim=c(epitangency-0.03,epitangency+0.03))
 
 
 
@@ -90,3 +90,13 @@ epi <- sigmapi * c(sqrt(K)) + r0
 #PLOTTING the CML with black dashed line
 sigmapis = seq(0, max(sd1,sd2)+5, 0.01);
 lines(sigmapis, cml(sigmapis), lwd=2, lty='dashed')
+
+
+#Calculating and plotting the TANGENCY PORTFOLIO with a black square
+C = t(onematrix) %*% solve(v) %*% onematrix
+A = t(onematrix) %*% solve(v) %*% e
+
+epitangency = r0 + K / (C * (A/C - r0));
+sigmapitangency = (epitangency - r0) / sqrt(K);
+points(sigmapitangency, epitangency , pch=15)
+
