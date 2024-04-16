@@ -54,7 +54,7 @@ plot(xaxis, yaxis, type="l", xlab="Sigma (risk)", ylab="Expected return", xlim=c
 #plot(xaxis, yaxis, type="l", xlab="Sigma (risk)", ylab="Expected return")
 
 #USE THIS plot if you would like to see the TANGENCY PORTFOLIO from UP CLOSE
-#plot(xaxis, yaxis, type = "l", xlab="Sigma (risk)", ylab="Expected return", xlim=c(sigmapitangency-0.03, sigmapitangency+0.03), ylim=c(epitangency-0.03,epitangency+0.03))
+#plot(xaxis, yaxis, type = "l", xlab="Sigma (risk)", ylab="Expected return", xlim=c(sigmapitangency-0.0015, sigmapitangency+0.0015), ylim=c(epitangency-0.0015,epitangency+0.0015))
 
 
 
