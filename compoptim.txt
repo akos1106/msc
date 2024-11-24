@@ -1,3 +1,6 @@
+###################################################### PRODUCTION PROBLEM
+!Winco;
+
 model:
 
 max = 4*x1+6*x2+7*x3+8*x4;
@@ -9,7 +12,8 @@ max = 4*x1+6*x2+7*x3+8*x4;
 
 END
 
-######################################################
+###################################################### PRODUCTION PROBLEM
+!Farmer Leary;
 
 model:
 
@@ -23,7 +27,9 @@ max = 150*x1+200*x2-10*x3;
 
 end
 
-######################################################
+###################################################### PRODUCTION PROBLEM
+!Carco manufactory;
+
 model:
 
 max = 300*x1+400*x2-50*x3;
@@ -41,7 +47,9 @@ max = 300*x1+400*x2-50*x3;
 
 END
 
-######################################################
+###################################################### TRANSPORTATION PROBLEM
+!Powerco;
+!Manual input;
 
 MODEL:
  sets:
@@ -51,6 +59,15 @@ MODEL:
   ROUTE (PLANT, TOWN): cost, x;
  endsets
 
+ !input;
+ data:
+  cpc = 	35 50 40;
+  dem = 	45 20 30 30;
+  cost = 	8 6 10 9 
+		9 12 13 7 
+		14 9 16 5;
+ enddata
+
 
 !Objective fn;
 [totalcost] min = @sum(route: cost*x);
@@ -65,19 +82,11 @@ MODEL:
 [demand] @sum(plant (i): x(i,j)) >= dem(j)
 );
 
-
-!input;
- data:
- cpc = 	35 50 40;
- dem = 	45 20 30 30;
- cost = 	8 6 10 9 
-		9 12 13 7 
-		14 9 16 5;
-enddata
-
 END
 
-######################################################
+###################################################### TRANSPORTATION PROBLEM
+!Powerco - cost;
+!Excel input and output;
 
 MODEL:
  sets:
@@ -87,6 +96,16 @@ MODEL:
   ROUTE (PLANT, TOWN): cost, x;
  endsets
 
+ data:
+ !input;
+  cpc, dem, cost, plant, town = 
+	@OLE('transport.xlsx', 'cpc', 'dem', 'cost', 'plants', 'towns');
+
+
+ !output;
+  @OLE('transport.xlsx', 'solution') = x;
+
+ enddata
 
 !Objective fn;
 [totalcost] min = @sum(route: cost*x);
@@ -101,23 +120,11 @@ MODEL:
 [demand] @sum(plant (i): x(i,j)) >= dem(j)
 );
 
-
-!input;
- data:
- cpc, dem, cost, plant, town = 
-	@OLE('transport.xlsx', 'cpc', 'dem', 'cost', 'plants', 'towns');
-
-
-!output;
-@OLE('transport.xlsx', 'solution') = x;
-
-enddata
-
 END
 
-
-######################################################
-
+###################################################### TRANSPORTATION PROBLEM
+!Powerco - profit;
+!Excel input and output;
 
 MODEL:
  sets:
@@ -127,9 +134,19 @@ MODEL:
   ROUTE (PLANT, TOWN): prof, x;
  endsets
 
+ data:
+ !input;
+  cpc, dem, prof, plant, town = 
+	@OLE('transport.xlsx', 'cpc', 'dem', 'prof', 'plants', 'towns');
+
+
+ !output;
+  @OLE('transport.xlsx', 'solution') = x;
+
+ enddata
 
 !Objective fn;
-[totalcost] max = @sum(route: prof*x);
+[totalprofit] max = @sum(route: prof*x);
 
 !Capacity constraints;
 @for(PLANT (i):
@@ -141,21 +158,11 @@ MODEL:
 [demand] @sum(plant (i): x(i,j)) <= dem(j)
 );
 
-
-!input;
- data:
- cpc, dem, prof, plant, town = 
-	@OLE('transport.xlsx', 'cpc', 'dem', 'prof', 'plants', 'towns');
-
-
-!output;
-@OLE('transport.xlsx', 'solution') = x;
-
-enddata
-
 END
 
-#####################################################################
+###################################################### PRODUCTION PROBLEM
+#Winco
+
 import pyomo.environ as pyo
 import numpy as np
 from pyomo.environ import *
@@ -207,7 +214,9 @@ print('x3 = ', pyo.value(x3))
 print('x4 = ', pyo.value(x4))
 
 
-############################################################################
+###################################################### PRODUCTION PROBLEM
+#Farmer Leary
+
 import pyomo.environ as pyo
 import numpy as np
 from pyomo.environ import *
@@ -268,7 +277,8 @@ model.dual.pprint()
 
 
 
-#################################################################
+###################################################### PRODUCtION PROBLEM + DUAL PRICES
+#Car production
 
 import pyomo.environ as pyo
 import numpy as np
@@ -328,7 +338,8 @@ print('x2 = ', pyo.value(x2))
 dualforPaint = model.dual[model.paintConstr]
 print('Dual price for paintshop comstr= ' , dualforPaint)
 
-############################################################################################# oct 28
+###################################################### TRANSPORTATION PROBLEM
+#Powerco
 
 import pyomo.environ as pyo
 import numpy as np
@@ -380,7 +391,8 @@ for i in range(1,p+1):
        print('From P',i, 'to C',j,' : ',pyo.value(x[i,j]), '\n') 
 
 
-#############################################################################################
+###################################################### BLENDING PROBLEM
+#Slugger candy
 
 import pyomo.environ as pyo
 import numpy as np
@@ -430,7 +442,8 @@ for i in range(1,bar+1):
        print('Into bar',i, 'form ingredient',j,' : ',pyo.value(x[i,j]), '\n') 
 
 
-############################################################################################## nov 4
+###################################################### BLENDING PROBLEM
+#Fertilizer
 
 import pyomo.environ as pyo
 import numpy as np
@@ -487,7 +500,8 @@ for i in range(1,Prod+1):
     for j in range(1,Ingr+1):
        print('Into fertelizer',i, 'form ingredient',j,' : ',pyo.value(x[i,j]), '\n') 
 
-##############################################################################################
+###################################################### SHCEDULING PROBLEM
+#Post office - manual constraints 
 
 import pyomo.environ as pyo
 import numpy as np
@@ -513,7 +527,7 @@ x = model.x
 #objective
 model.obj = pyo.Objective(expr =  sum(x[i] for i in range(1,8)), sense=minimize)
 
-#stock constraints        #OR: if i != 2 and i != 3
+#skipping days constraints        #OR: if i != 2 and i != 3
 #model.day1 = pyo.Constraint(expr = sum(x[i] for i in range(1,8) if not i == 2 and not i == 3) >= days['Required'][0]) 
 #model.day2 = pyo.Constraint(expr = sum(x[i] for i in range(1,8) if not i == 3 and not i == 4) >= days['Required'][1])
 #model.day3 = pyo.Constraint(expr = sum(x[i] for i in range(1,8) if not i == 4 and not i == 5) >= days['Required'][2])
@@ -539,7 +553,9 @@ for i in range(1,8):
 
 
 
-############################################################################################################### nov 11
+###################################################### SCHEDULING PROBLEM
+#Post office - for loop constraints 
+#Input from Excel
 
 import pyomo.environ as pyo
 import numpy as np
@@ -551,11 +567,6 @@ import pandas as pd #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 model = pyo.ConcreteModel()
 
 
-##supply input
-#days = {'Days':   ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-#         'Required': [17,13,15,19,14,16,11]
-#         }
-
 #supply input from excel
 dataEmps = pd.read_excel('WS-input.xlsx')
 
@@ -564,21 +575,10 @@ dataEmps = pd.read_excel('WS-input.xlsx')
 model.x = pyo.Var(range(1,8), within=Integers, bounds=(0,np.inf))
 x = model.x
 
-
-
 #objective
 model.obj = pyo.Objective(expr =  sum(x[i] for i in range(1,8)), sense=minimize)
 
-#stock constraints        #OR: if i != 2 and i != 3
-#model.day1 = pyo.Constraint(expr = sum(x[i] for i in range(1,8) if not i == 2 and not i == 3) >= days['Required'][0]) 
-#model.day2 = pyo.Constraint(expr = sum(x[i] for i in range(1,8) if not i == 3 and not i == 4) >= days['Required'][1])
-#model.day3 = pyo.Constraint(expr = sum(x[i] for i in range(1,8) if not i == 4 and not i == 5) >= days['Required'][2])
-#model.day4 = pyo.Constraint(expr = sum(x[i] for i in range(1,8) if not i == 5 and not i == 6) >= days['Required'][3])
-#model.day5 = pyo.Constraint(expr = sum(x[i] for i in range(1,8) if not i == 6 and not i == 7) >= days['Required'][4])
-#model.day6 = pyo.Constraint(expr = sum(x[i] for i in range(1,8) if not i == 7 and not i == 1) >= days['Required'][5])
-#model.day7 = pyo.Constraint(expr = sum(x[i] for i in range(1,8) if not i == 1 and not i == 2) >= days['Required'][6])
-
-
+#skipping days constraints
 model.D  = pyo.ConstraintList()
 for j in range(1,8):
     model.D.add(sum(x[i] for i in range(1,8) if i != j % 7 + 1 and i != j % 7 + 2 and i != (j % 7 + 2) % 7)
@@ -594,7 +594,10 @@ for i in range(1,8):
        print(pyo.value(x[i]), 'employee starts on',dataEmps['Days'][i-1]) 
 
 
-###############################################################################################################
+###################################################### SCHEDULING PROBLEM
+#Police force
+#Input from Excel
+
 import pyomo.environ as pyo
 import numpy as np
 from pyomo.environ import *
@@ -640,7 +643,9 @@ for i in range(1,7):
        print(pyo.value(x[i]), 'starts working at',dataEmps['Hours'][i-1]) 
 
 
-#####################################################################
+###################################################### EITHER-OR CONSTRAINTS
+!Dorian Auto;
+
 model:
 
 data:
@@ -667,7 +672,66 @@ x3 <= M*y3;
 
 end
 
-#########################################################################
+###################################################### EITHER-OR CONSTRAINTS
+#Dorian Auto
+
+import pyomo.environ as pyo
+import numpy as np
+from pyomo.environ import *    #do not need pyo. ...
+from pyomo.opt import SolverFactory
+
+model = ConcreteModel()
+
+#parameters
+Cars = {'Type':   ['compact', 'midsize', 'large'],
+         'Steel': [1.5, 3, 5],
+         'Labor': [30, 25, 40],
+         'profit': [2000, 3000, 4000]
+         }
+
+
+#constant 
+M = 3000
+
+#variables
+model.x = pyo.Var(range(1,4),bounds=(0,np.inf), within=Integers)
+x = model.x
+
+#Binary variables
+model.y = pyo.Var(range(1,4),within=Binary)
+y = model.y
+
+model.obj = pyo.Objective(expr= sum(Cars['profit'][i-1]*x[i] for i in range(1,4)), 
+                          sense=pyo.maximize  )
+
+
+#cars <=0 or >= 1000 for all type
+
+#either or constraint pairs for the 3 types of cars
+model.C1 = pyo.ConstraintList()
+for j in range(1,4):
+    model.C1.add(expr= x[j] <= M*y[j])
+    model.C1.add(expr= 1000 - x[j] <= M*(1-y[j]))
+                 
+
+#Steel
+model.C2 = pyo.Constraint(expr= sum(Cars['Steel'][i-1]*x[i] for i in range(1,4)) <= 6000)
+#Labor
+model.C3 = pyo.Constraint(expr= sum(Cars['Labor'][i-1]*x[i] for i in range(1,4)) <= 60000)
+
+model.pprint()
+
+opt = SolverFactory('gurobi')
+results = opt.solve(model)
+
+print('Obj=',pyo.value(model.obj))
+
+for j in range(1,4):
+    print(Cars['Type'][j-1], 'type Car:', pyo.value(x[j]), '\n' )
+
+###################################################### IF-THEN CONSTAINTS
+!Coach Night;
+
 model:
 
 sets:
