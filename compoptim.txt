@@ -657,6 +657,8 @@ max = 2000*x1+3000*x2+4000*x3;
 [steel] 1.5*x1+3*x2+5*x3 <= 6000;
 [labor] 30*x1+25*x2+40*x3 <= 60000;
 
+
+!either fx<=0 or fg<=0 -> fx<=My and gx<=M(1-y);
 x1 <= M*y1;
 1000-x1 <= M*(1-y1);
 
@@ -760,6 +762,7 @@ max = @sum(ps: def*x);
 [rbconst] (1/5)*@sum(ps (i): x(i)*rb(i)) >= 2;
 
 
+!if fx>0 then fg>=0 -> -gx<=My and fx<=M(1-y);
 x(6) <= M*y1;
 x(3) <= M*(1-y1);
 
