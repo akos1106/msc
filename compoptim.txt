@@ -84,7 +84,7 @@ MODEL:
 
 END
 
-###################################################### TRANSPORTATION PROBLEM
+###################################################### TRANSPORTATION PROBLEM - EXCEL INPUT OUTPUT
 !Powerco - cost;
 !Excel input and output;
 
@@ -122,7 +122,7 @@ MODEL:
 
 END
 
-###################################################### TRANSPORTATION PROBLEM
+###################################################### TRANSPORTATION PROBLEM - EXCEL INPUT OUTPUT
 !Powerco - profit;
 !Excel input and output;
 
@@ -553,7 +553,7 @@ for i in range(1,8):
 
 
 
-###################################################### SCHEDULING PROBLEM
+###################################################### SCHEDULING PROBLEM - EXCEL INPUT
 #Post office - for loop constraints 
 #Input from Excel
 
@@ -594,7 +594,7 @@ for i in range(1,8):
        print(pyo.value(x[i]), 'employee starts on',dataEmps['Days'][i-1]) 
 
 
-###################################################### SCHEDULING PROBLEM
+###################################################### SCHEDULING PROBLEM - EXCEL INPUT
 #Police force
 #Input from Excel
 
