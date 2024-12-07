@@ -731,7 +731,7 @@ print('Obj=',pyo.value(model.obj))
 for j in range(1,4):
     print(Cars['Type'][j-1], 'type Car:', pyo.value(x[j]), '\n' )
 
-###################################################### IF-THEN CONSTAINTS
+###################################################### IF-THEN CONSTRAINTS
 !Coach Night;
 
 model:
@@ -783,7 +783,65 @@ x(1) <= M*(1-y2);
 
 end
 
-###################################################### IF-THEN CONSTAINTS
+###################################################### IF-THEN CONSTRAINTS - EXCEL INPUT OUTPUT
+
+!Coach Night;
+
+model:
+
+sets:
+ps /P1..P7/:bh,sh,rb,def,x;
+endsets
+
+data:
+M = 10000;
+
+!input;
+bh, sh, rb, def = 
+	@ole('coach.xlsx','bh','sh','rb','def');
+
+!output;
+@ole('coach.xlsx','solution') = x;
+
+enddata
+
+
+max = @sum(ps: def*x);
+
+[fiveplayers] @sum(ps (i): x(i)) = 5;
+
+[fourguards] x(1)+x(3)+x(5)+x(7) >= 4;
+[twoforward] x(3)+x(4)+x(5)+x(6)+x(7) >= 2;
+[onecenter] x(2)+x(4)+x(6) >= 1;
+
+[bhconst] (1/5)*@sum(ps (i): x(i)*bh(i)) >= 2;
+[shconst] (1/5)*@sum(ps (i): x(i)*sh(i)) >= 2;
+[rbconst] (1/5)*@sum(ps (i): x(i)*rb(i)) >= 2;
+
+
+!if fx>0 then fg>=0 -> -gx<=My and fx<=M(1-y);
+x(6) <= M*y1;
+x(3) <= M*(1-y1);
+
+x(1) <= M*(1-y2);
+-x(4)-x(5)+2 <= M*y2;
+
+-x(1)+1 <= M*y3;
+-x(3)+1 <= M*(1-y3);
+
+
+@for(ps (i):	
+@bin(x(i))
+);
+
+@bin(y1);
+@bin(y2);
+@bin(y3);
+
+end
+
+
+###################################################### IF-THEN CONSTRAINTS
 
 
 import pyomo.environ as pyo
