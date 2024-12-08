@@ -931,7 +931,7 @@ for j in range(1,8):
 
 ###################################################### BLENDING
 
-#Young MBA Erica
+#Young MBA Erica, investment
 
 import pyomo.environ as pyo
 import numpy as np
